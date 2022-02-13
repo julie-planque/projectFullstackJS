@@ -3,7 +3,7 @@ const Sequelize = require("sequelize"); // ORM signifie Object-Relational Mappin
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
-  operatorsAliases: false,
+  operatorsAliases: 0,
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
@@ -14,7 +14,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-db.tutorials = require("./movie-db.model.js")(sequelize, Sequelize);
+db.MovieDb = require("./movie-db.model.js")(sequelize, Sequelize);
 module.exports = db;
 
 // ORM :L’avantage de cette couche d’abstraction est qu’il n’y a plus besoin de se soucier du système de base de données

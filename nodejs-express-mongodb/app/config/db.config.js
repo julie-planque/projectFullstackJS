@@ -1,9 +1,10 @@
 module.exports = {
-    HOST: "localhost",
+    HOST: "127.0.0.1",
     USER: "root",
-    PASSWORD: "juju",
+    PASSWORD: "YES",
     DB: "moviedb",
     dialect: "mysql",
+    port: "3306",
     pool: {
       max: 5, // maximum number of connection in pool
       min: 0,
