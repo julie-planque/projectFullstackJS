@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const MovieDb = sequelize.define("movie-db", {
+    const moviedb = sequelize.define("movie-dbs", {
         id : {
             type: Sequelize.INTEGER,
             autoIncrement: true,
@@ -8,15 +8,24 @@ module.exports = (sequelize, Sequelize) => {
       title: {
         type: Sequelize.STRING
       },
+      actors: {
+        type: Sequelize.STRING
+      },
+      productors : {
+        type: Sequelize.STRING
+      },
       description: {
         type: Sequelize.STRING
+      },
+      date : {
+        type: Sequelize.DATE
       },
       published: {
         type: Sequelize.BOOLEAN
       },
-      image: {
+      url: {
           type: Sequelize.STRING
       }
     });
-    return MovieDb;
+    return moviedb;
   };

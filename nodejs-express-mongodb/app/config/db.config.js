@@ -2,7 +2,7 @@ module.exports = {
     HOST: "127.0.0.1",
     USER: "root",
     PASSWORD: "YES",
-    DB: "moviedb",
+    DB: "movies_db",
     dialect: "mysql",
     port: "3306",
     pool: {

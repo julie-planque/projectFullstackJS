@@ -1,31 +1,144 @@
 const db = require("../models");
-const MovieDb = db.MovieDb;
+const Movie = db.moviedb;
 const Op = db.Sequelize.Op;
-// Create and Save a new Tutorial
+// Create and Save a new Movie
 exports.create = (req, res) => {
-  
-};
-// Retrieve all Tutorials from the database.
+    // Validate request
+    console.log(req.body);
+    if (!req.body && !req.body.title) {
+      res.status(400).send({
+        message: "Content can not be empty!"
+      });
+      return;
+    }
+    // Create a Movie
+    const movie = {
+      title: req.body.title,
+      actors: req.body.actors,
+      productors: req.body.productors,
+      description: req.body.description,
+      date: req.body.date,
+      published: req.body.published ? req.body.published : false,
+      url: req.body.url
+    };
+    // Save Movie in the database
+    Movie.create(movie)
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the Movie."
+        });
+      });
+  };
+// Retrieve all Movies from the database.
 exports.findAll = (req, res) => {
-  
-};
-// Find a single Tutorial with an id
+    const title = req.query.title;
+    var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
+    Movie.findAll({ where: condition })
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving movies."
+        });
+      });
+  };
+// Find a single Movie with an id
 exports.findOne = (req, res) => {
-  
-};
-// Update a Tutorial by the id in the request
+    const id = req.params.id;
+    Movie.findByPk(id)
+      .then(data => {
+        if (data) {
+          res.send(data);
+        } else {
+          res.status(404).send({
+            message: `Cannot find Movie with id=${id}.`
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Error retrieving Movie with id=" + id
+        });
+      });
+  };
+// Update a Movie by the id in the request
 exports.update = (req, res) => {
-  
-};
-// Delete a Tutorial with the specified id in the request
+    const id = req.params.id;
+    Movie.update(req.body, {
+      where: { id: id }
+    })
+      .then(num => {
+        if (num == 1) {
+          res.send({
+            message: "Movie was updated successfully."
+          });
+        } else {
+          res.send({
+            message: `Cannot update Movie with id=${id}. Maybe Movie was not found or req.body is empty!`
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Error updating Movie with id=" + id
+        });
+      });
+  };
+// Delete a Movie with the specified id in the request
 exports.delete = (req, res) => {
-  
-};
-// Delete all Tutorials from the database.
+    const id = req.params.id;
+    Movie.destroy({
+      where: { id: id }
+    })
+      .then(num => {
+        if (num == 1) {
+          res.send({
+            message: "Movie was deleted successfully!"
+          });
+        } else {
+          res.send({
+            message: `Cannot delete Movie with id=${id}. Maybe Movie was not found!`
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Could not delete Movie with id=" + id
+        });
+      });
+  };
+// Delete all Movies from the database.
 exports.deleteAll = (req, res) => {
-  
-};
-// Find all published Tutorials
+    Movie.destroy({
+      where: {},
+      truncate: false
+    })
+      .then(nums => {
+        res.send({ message: `${nums} Movies were deleted successfully!` });
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while removing all movies."
+        });
+      });
+  };
+// Find all published Movies
 exports.findAllPublished = (req, res) => {
-  
-};
+    Movie.findAll({ where: { published: true } })
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving movies."
+        });
+      });
+  };

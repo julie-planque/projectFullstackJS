@@ -14,7 +14,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-db.MovieDb = require("./movie-db.model.js")(sequelize, Sequelize);
+db.moviedb = require("./movie-db.model.js")(sequelize, Sequelize);
 module.exports = db;
 
 // ORM :L’avantage de cette couche d’abstraction est qu’il n’y a plus besoin de se soucier du système de base de données
