@@ -10,36 +10,33 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6">
-      <h4>Movies List</h4>
-      <ul class="list-group">
+    <div class="col-md-8">
+      <div v-if="movies">
+      <h4>Movies</h4>
+       <ul class="list-group">
         <li class="list-group-item"
           :class="{ active: index == currentIndex }"
-          v-for="(movie, index) in movies"
+          v-for="(currentMovie, index) in movies"
           :key="index"
-          @click="setActiveMovie(movie, index)"
-        >
-          {{ movie.title }}
+          @click="setActiveMovie(currentMovie, index)">
+          <div>
+            <img v-bind:src="currentMovie.url" alt="Image du film">
+          </div>
+          <div>
+            <label><strong>Title:</strong></label> {{ currentMovie.title }}
+          </div>
+          <div>
+            <label><strong>Description:</strong></label> {{ currentMovie.description }}
+          </div>
+          <div>
+            <label><strong>Status:</strong></label> {{ currentMovie.published ? "Published" : "Pending" }}
+          </div>
+          <router-link :to="'/movies/' + currentMovie.id" class="badge badge-warning">Edit</router-link>
         </li>
-      </ul>
-      <button class="m-3 btn btn-sm btn-danger" @click="removeAllMovies">
-        Remove All
-      </button>
-    </div>
-    <div class="col-md-6">
-      <div v-if="currentMovie">
-        <h4>Movie</h4>
-        <div>
-          <label><strong>Title:</strong></label> {{ currentMovie.title }}
-        </div>
-        <div>
-          <label><strong>Description:</strong></label> {{ currentMovie.description }}
-        </div>
-        <div>
-          <label><strong>Status:</strong></label> {{ currentMovie.published ? "Published" : "Pending" }}
-        </div>
-        <router-link :to="'/movies/' + currentMovie.id" class="badge badge-warning">Edit</router-link>
+        </ul>
       </div>
+        <div v-if="currentMovie">
+        </div>
       <div v-else>
         <br />
         <p>Please click on a Movie...</p>
@@ -109,8 +106,16 @@ export default {
 </script>
 <style>
 .list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: left;
   max-width: 750px;
   margin: auto;
+}
+img {
+  align-items: center;
+  justify-content: center;
+  width:427px;
 }
 </style>

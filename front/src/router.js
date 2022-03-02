@@ -15,6 +15,11 @@ const routes =  [
     path: "/add",
     name: "add",
     component: () => import("./components/AddMovie")
+  },
+  {
+    path: "/remove",
+    name: "remove",
+    component: () => import("./components/RemoveMovie")
   }
 ];
 const router = createRouter({

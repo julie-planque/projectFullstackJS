@@ -1,6 +1,7 @@
 <template>
   <div class="submit-form">
-    <div v-if="!submitted">
+  <div v-if="!submitted">
+  <h4>Add new Movie</h4>
       <div class="form-group">
         <label for="title">Title</label>
         <input
@@ -13,13 +14,47 @@
         />
       </div>
       <div class="form-group">
-        <label for="description">Description</label>
+        <label for="actors">Actors</label>
         <input
           class="form-control"
-          id="description"
+          id="actors"
           required
-          v-model="movie.description"
-          name="description"
+          v-model="movie.actors"
+          name="actors"
+        />
+      </div>
+      <div class="form-group">
+        <label for="productors">Productors</label>
+        <input
+          class="form-control"
+          id="productors"
+          required
+          v-model="movie.productors"
+          name="productors"
+        />
+      </div>
+      <div class="form-group">
+        <label for="validationTextarea">Description</label>
+        <textarea class="form-control" name="description" id="description" v-model="movie.description" required></textarea>
+      </div>
+      <div class="form-group">
+      <label for="date">Date</label>
+          <Datepicker v-model="movie.date" placeholder="Enter Date"></Datepicker>
+      </div>
+      <div class="form-group">
+      <div class="form-check form-switch">
+  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" name="published"  v-model="movie.published" checked>
+  <label class="form-check-label" for="flexSwitchCheckChecked">Published</label>
+</div>
+        </div>
+      <div class="form-group">
+        <label for="url">Url</label>
+        <input
+          class="form-control"
+          id="url"
+          required
+          v-model="movie.url"
+          name="url"
         />
       </div>
       <button @click="saveMovie" class="btn btn-success">Submit</button>
@@ -32,24 +67,36 @@
 </template>
 <script>
 import MovieDataService from "../services/MovieDataService";
+import Datepicker from 'vue3-date-time-picker';
 export default {
   name: "add-movie",
+  components: { Datepicker },
   data() {
     return {
       movie: {
         id: null,
         title: "",
+        actors: "",
+        productors:"",
         description: "",
-        published: false
+        date: null,
+        published: false,
+        url: ""
       },
-      submitted: false
+      submitted: false,
+      date: null
     };
   },
   methods: {
     saveMovie() {
       var data = {
         title: this.movie.title,
-        description: this.movie.description
+        actors: this.movie.actors,
+        productors: this.movie.productors,
+        description: this.movie.description,
+        date: this.movie.date,
+        published: this.movie.published,
+        url: this.movie.url
       };
       MovieDataService.create(data)
         .then(response => {
